@@ -21,21 +21,11 @@ selected_gender = st.sidebar.multiselect("Gender", options=df["Gender"].unique()
 selected_attrition = st.sidebar.multiselect("Attrition", options=df["Attrition"].unique(), default=df["Attrition"].unique())
 age_range = st.sidebar.slider("Age Range", int(df["Age"].min()), int(df["Age"].max()), (20, 60))
 
-# Apply Filters
-filtered_df = df[
-    (df["Department"].isin(selected_department)) &
-    (df["Gender"].isin(selected_gender)) &
-    (df["Attrition"].isin(selected_attrition)) &
-    (df["Age"].between(age_range[0], age_range[1]))
-]
-
-# Tabs for organization
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Overview", "Demographics", "Job Metrics", "Satisfaction", "Advanced"])
-
 with tab1:
     st.title("Employee Attrition Dashboard")
     st.markdown("""
-        This dashboard provides insights into employee attrition and workforce statistics to support HR leadership in strategic decision-making.
+        This dashboard provides insights into employee attrition and workforce statistics 
+        to support HR leadership in strategic decision-making.
     """)
 
     st.subheader("Attrition Breakdown")
@@ -43,16 +33,24 @@ with tab1:
     fig1 = px.pie(filtered_df, names='Attrition', title='Attrition Rate')
     st.plotly_chart(fig1, use_container_width=True)
 
-st.subheader("Department-wise Count")
-st.write("Bar chart showing employee count per department.")
-dept_counts = filtered_df["Department"].value_counts().reset_index()
-dept_counts.columns = ["Department", "Count"]
-fig2 = px.bar(dept_counts, x="Department", y="Count", title="Employees per Department")
-st.plotly_chart(fig2, use_container_width=True)
-st.plotly_chart(fig2, use_container_width=True)
+    st.subheader("Department-wise Count")
+    st.write("Bar chart showing employee count per department.")
+    dept_counts = filtered_df["Department"].value_counts().reset_index()
+    dept_counts.columns = ["Department", "Count"]
+    fig2 = px.bar(dept_counts, x="Department", y="Count", title="Employees per Department")
+    st.plotly_chart(fig2, use_container_width=True)
 
     st.subheader("KPI Overview")
     col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Employees", len(filtered_df))
+    with col2:
+        attrition_rate = (filtered_df['Attrition'] == 'Yes').mean() * 100
+        st.metric("Attrition Rate", f"{attrition_rate:.1f}%")
+    with col3:
+        avg_income = filtered_df['MonthlyIncome'].mean()
+        st.metric("Avg. Monthly Income", f"${avg_income:,.0f}")
+
     with col1:
         st.metric("Total Employees", len(filtered_df))
     with col2:
