@@ -21,6 +21,7 @@ selected_gender = st.sidebar.multiselect("Gender", options=df["Gender"].unique()
 selected_attrition = st.sidebar.multiselect("Attrition", options=df["Attrition"].unique(), default=df["Attrition"].unique())
 age_range = st.sidebar.slider("Age Range", int(df["Age"].min()), int(df["Age"].max()), (20, 60))
 
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Overview", "Demographics", "Job Metrics", "Satisfaction", "Advanced"])
 with tab1:
     st.title("Employee Attrition Dashboard")
     st.markdown("""
