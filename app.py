@@ -45,7 +45,10 @@ with tab1:
 
     st.subheader("Department-wise Count")
     st.write("Bar chart showing employee count per department.")
-    fig2 = px.bar(filtered_df["Department"].value_counts().reset_index(), x="index", y="Department", labels={'index': 'Department', 'Department': 'Count'})
+    dept_counts = filtered_df["Department"].value_counts().reset_index()
+dept_counts.columns = ["Department", "Count"]
+fig2 = px.bar(dept_counts, x="Department", y="Count", title="Employees per Department")
+st.plotly_chart(fig2, use_container_width=True)
     st.plotly_chart(fig2, use_container_width=True)
 
     st.subheader("KPI Overview")
