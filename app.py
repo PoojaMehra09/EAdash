@@ -31,7 +31,7 @@ with tab1:
 
     st.subheader("Attrition Breakdown")
     st.write("Pie chart showing the proportion of employees who left vs. stayed.")
-    st.write(\"Checking if px is defined:\", px)
+    st.write("Checking if px is defined:", px)
     fig1 = px.pie(filtered_df, names='Attrition', title='Attrition Rate')
     st.plotly_chart(fig1, use_container_width=True)
 
